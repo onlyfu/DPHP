@@ -36,6 +36,7 @@ class Base{
         }
     }
 
+
     //调用类
     public function C($name){
         if(empty($name)){

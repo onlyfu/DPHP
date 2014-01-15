@@ -122,7 +122,21 @@ class dbmysql {
     }
 
     function halt($message = '', $sql = '') {
-        
+
+        define('CACHE_FORBIDDEN', TRUE);
+        if($message) {
+            $errmsg = "<b>Osunit info</b>: $message\n\n";
+        }
+        $errmsg .= "<b>Time</b>: ".date("Y-n-j g:ia")."\n";
+        if($sql) {
+            $errmsg .= "<b>SQL</b>: ".htmlspecialchars($sql)."\n";
+        }
+        $errmsg .= "<b>Error</b>:  ".$this->error()."\n";
+        $errmsg .= "<b>Errno.</b>:  ".$this->errno();
+
+        echo "</table></table></table></table></table>\n";
+        echo "<p style=\"font-family: Verdana, Tahoma; font-size: 11px; background: #FFFFFF;\">";
+        echo nl2br(str_replace($GLOBALS['tablepre'], '[Table]', $errmsg));
     }
 }
 

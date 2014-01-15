@@ -51,9 +51,14 @@ class Model {
         return $results;
     }
 
+
     public function paginate($table,$params=array()){
         $params['page'] = max(1, intval($params['page']));
         $pagenums=$params['limit'][1];
+
+    public function paginate($table,$params=array(),$multi=null,$link=null){
+        $params['page'] = max(1, intval($params['page']));
+        $pagenums=$params['pagenums'];
         $start_limit = ($params['page'] - 1) * $pagenums;
         $_params=array(
             'fields'=>array('count(*) as nums'),
@@ -65,13 +70,21 @@ class Model {
         }
         if(isset($params['group'])){
             $_params['group']=$params['group'];
+
+            //$sql="select count(*) as nums from (select count(*) as count from ".$table." )";
+
             $datanums=$this->getNumsByGroup($table,$_params);
         }else{
             $datanums=$this->getrows($table,$_params);
         }
 
         $params['limit']=array($start_limit,$pagenums);
+
         return array($this->find($table,'list',$params),$datanums);
+
+        $multi_admin=Base::multi($datanums,$pagenums,$params['page'],$params['url'],$multi,$link);
+        return array($this->find($table,'list',$params),$datanums,$multi_admin);
+
     }
 
     public function getNumsByGroup($table,$params){

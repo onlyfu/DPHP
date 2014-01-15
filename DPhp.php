@@ -23,7 +23,10 @@ defined("DP_MESSAGE_TPL") or define('DP_MESSAGE_TPL', DP_PATH.'Template/message.
 
 //注册错误捕获
 register_shutdown_function('fatalError');
+
 //set_error_handler('appError');
+
+set_error_handler('appError');
 //注册自动获取
 spl_autoload_register('autoLoad');
 //检查配置文件
