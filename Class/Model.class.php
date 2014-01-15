@@ -55,10 +55,6 @@ class Model {
     public function paginate($table,$params=array()){
         $params['page'] = max(1, intval($params['page']));
         $pagenums=$params['limit'][1];
-
-    public function paginate($table,$params=array(),$multi=null,$link=null){
-        $params['page'] = max(1, intval($params['page']));
-        $pagenums=$params['pagenums'];
         $start_limit = ($params['page'] - 1) * $pagenums;
         $_params=array(
             'fields'=>array('count(*) as nums'),
@@ -79,10 +75,6 @@ class Model {
         }
 
         $params['limit']=array($start_limit,$pagenums);
-
-        return array($this->find($table,'list',$params),$datanums);
-
-        $multi_admin=Base::multi($datanums,$pagenums,$params['page'],$params['url'],$multi,$link);
         return array($this->find($table,'list',$params),$datanums,$multi_admin);
 
     }
